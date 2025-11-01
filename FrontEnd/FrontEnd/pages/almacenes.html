@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventario | Almacenes</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+<header id="app-navbar"></header>
+<main class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h4 m-0">Almacenes</h1>
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalAlmacen"><i class="bi-plus-lg me-1"></i> Nuevo</button>
+  </div>
+
+  <div class="card card-lift">
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Código</th>
+              <th>Nombre</th>
+              <th>Tipo</th>
+              <th>Ciudad</th>
+              <th>País</th>
+              <th>Activo</th>
+              <th style="width: 180px;">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="almacenesTbody">
+            <tr><td colspan="8" class="text-center text-muted">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" id="modalAlmacen" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalAlmacenTitle">Nuevo almacén</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="formAlmacen" class="vstack gap-3">
+          <input type="hidden" id="almacenId"/>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Código</label>
+              <input id="almacenCodigo" class="form-control" required />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Nombre</label>
+              <input id="almacenNombre" class="form-control" required />
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Tipo</label>
+              <input id="almacenTipo" class="form-control" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">Dirección</label>
+              <input id="almacenDireccion" class="form-control" />
+            </div>
+          </div>
+          <div class="row g-2">
+            <div class="col-6">
+              <label class="form-label">Ciudad</label>
+              <input id="almacenCiudad" class="form-control" />
+            </div>
+            <div class="col-6">
+              <label class="form-label">País</label>
+              <input id="almacenPais" class="form-control" />
+            </div>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="almacenActivo" checked>
+            <label class="form-check-label" for="almacenActivo">Activo</label>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button id="btnSaveAlmacen" type="button" class="btn btn-primary">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/navbar.js"></script>
+<script src="../assets/js/almacenes.js"></script>
+</body>
+</html>
