@@ -1,7 +1,6 @@
 (function () {
   const tbody = () => document.getElementById('gestionesTbody');
 
-  /
   function render(items) {
     tbody().innerHTML = items
       .map(

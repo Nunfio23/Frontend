@@ -36,7 +36,24 @@
     }
   }
 
-  function renderNavbar() {
+  // ✅ NUEVO: obtener usuario autenticado desde auth.js
+  async function getUser() {
+    try {
+      const res = await fetch("https://accounts.beckysflorist.site/api/auth/validation/cookie", {
+        method: "GET",
+        credentials: "include"
+      });
+      if (res.ok) {
+        return await res.json();
+      }
+      return null;
+    } catch (err) {
+      console.error("Error obteniendo usuario:", err);
+      return null;
+    }
+  }
+
+  async function renderNavbar() {
     const container = document.getElementById('app-navbar');
     if (!container) return;
     const activeKey = currentKey();
@@ -48,6 +65,9 @@
         </a>
       </li>
     `).join('');
+
+    // Obtenemos el usuario
+    const user = await getUser();
 
     container.innerHTML = `
       <nav class="navbar navbar-expand-lg navbar-gradient navbar-dark shadow-sm">
@@ -72,15 +92,38 @@
                 </ul>
               </li>
             </ul>
+            <!-- NUEVO: sección de usuario y logout -->
+            ${user ? `
+              <div class="user-info ms-3">
+                <span>👋 Hola, <strong>${user.firstName}</strong></span>
+                <button id="logoutBtn" class="btn-logout">Cerrar sesión</button>
+              </div>
+            ` : ""}
           </div>
         </div>
-      </nav>`;
+      </nav>
+    `;
+
+    // Si hay usuario, activar logout
+    if (user) {
+      document.getElementById("logoutBtn").addEventListener("click", logout);
+    }
+  }
+
+  // ✅ NUEVO: función para cerrar sesión
+  async function logout() {
+    try {
+      document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      alert("Sesión cerrada correctamente 👋");
+      window.location.href = isInPagesDir() ? "../index.html" : "index.html";
+    } catch (err) {
+      console.error("Error al cerrar sesión:", err);
+    }
   }
 
   async function loadNotifications() {
     const notifList = document.getElementById('notifList');
     const badge = document.getElementById('notifBadge');
-
     if (!notifList || !badge) return;
 
     const lowStock = await fetchLowStock();
@@ -103,7 +146,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', async () => {
-    renderNavbar();
+    await renderNavbar();
     // Esperamos a que el navbar se inserte antes de buscar los elementos
     setTimeout(loadNotifications, 500);
   });
